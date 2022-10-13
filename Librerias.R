@@ -2,21 +2,21 @@
 # devtools::install(file.path("d:", "Users",
 #                 "20833717H", "Downloads","Download_CERES","icdcoder-master"))
 
-paths = .libPaths()
-
-## Try and detect bad files
-list.files(paths, 
-           pattern = "^00LOCK*|*\\.rds$|*\\.RDS$",
-           full.names = TRUE)
-
-## List files of size 0
-l = list.files(paths, full.names = TRUE)
-l[sapply(l, file.size) == 0]
+# Clean libraries---------------------------------------------------------------
+# paths = .libPaths()
+#
+# ## Try and detect bad files
+# list.files(paths,
+#            pattern = "^00LOCK*|*\\.rds$|*\\.RDS$",
+#            full.names = TRUE)
+#
+# ## List files of size 0
+# l = list.files(paths, full.names = TRUE)
+# l[sapply(l, file.size) == 0]
 
 # Cargar librerC-as-------------------------------------------------------------
 library(AdhereR)
 library(arsenal)
-install.packages("broom")
 library(broom)
 library(broom.mixed)
 library(codebook)
@@ -60,6 +60,7 @@ library(microbenchmark)
 library(multidplyr)
 library(naniar)
 # library(plotly)
+library(pointblank)
 library(prettydoc)
 library(profvis)
 library(qwraps2)
@@ -85,7 +86,7 @@ library(table1)
 library(tictoc)
 library(tidyfast)
 library(tidylog)
-library(tidymodels) 
+library(tidymodels)
 # library(tidyquant)
 library(tidyverse)
 # library(tmap)
