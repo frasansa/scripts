@@ -157,8 +157,14 @@ ic_nri3 <- function(casos_mal, casos_bien, n, alpha = 0.05) {
 
 # Función cargar datos y pasar fechas IDATE a Date
 fread2 <- function(x, ...){
-  fread(x, ...) %>%
+  fread(x, ...) |>
     mutate_if(is.Date, ymd)
+}
+
+# Como fread2 pero más rápido, cuando la fecha está bien arreglada
+fread3 <- function(x, ...){
+  fread(x, ...) |>
+    mutate_if(is.Date, fasttime::fastDate)
 }
 
 # crear función que separe los millares
