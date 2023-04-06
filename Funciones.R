@@ -183,7 +183,8 @@ theme_set(theme_bw( base_size = 24))
 zero_days = difftime(ymd("2000-01-01"), ymd("2000-01-01"), units = "days")
 
 # Trayectorias-----------------------------------------------------------------
-pintar_trayectorias <- function(traj_model, last_month, gg_title = "Do You forget to put a title?", y_lab = "PDC measure"){
+pintar_trayectorias <- function(traj_model, last_month,
+    gg_title = "Do You forget to put a title?", y_lab = "PDC measure"){
   datnew <- data.frame(mes = 1:{{last_month}})
   p_m1_cat_1y <- predictY(traj_model[[1]], datnew, var.time = "mes")
   p_m2_cat_1y <- predictY(traj_model[[2]], datnew, var.time = "mes")
@@ -277,3 +278,39 @@ seleccionar_trayectoria <- function(traj_model, clases, last_month){
     filter(modelo == clases)
 
 }
+
+# Funciones para cargar nombres del excel de variables-------------------------
+# Cargar todos los nombres
+cargar_nombres_all <- function(cual, descrip = "") {
+  suppressMessages(rio::import(file = "Results/nombres_variables_minerva.xlsx", which = cual)) |>
+    clean_names("snake") |>
+    select(all) |>
+    filter(!is.na(all)) |>
+    transmute(
+      datasource = "VID",
+      databank_acronym = cual,
+      databank_description = descrip,
+      table_name = cual,
+      original_name = all,
+      meaning	= "",
+      data_dictionary = "",
+      comment ="")
+}
+# Cargar nombres de variables obligatorias
+cargar_nombres <- function(cual, descrip = "") {
+  suppressMessages(rio::import(file = "Results/nombres_variables_minerva.xlsx", which = cual))  |>
+    clean_names("snake") |>
+    select(mandatory) |>
+    filter(!is.na(mandatory)) |>
+    transmute(
+      datasource = "VID",
+      databank_acronym = cual,
+      databank_description = descrip,
+      table_name = cual,
+      original_name = mandatory,
+      meaning	= "",
+      data_dictionary = "",
+      comment ="")
+}
+
+
