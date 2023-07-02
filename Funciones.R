@@ -168,7 +168,7 @@ fread3 <- function(x, ...){
 }
 
 # crear función que separe los millares
-pretty2 <- purrr::partial(prettyNum, big.mark = "&hairsp;")
+pretty2 <- purrr::partial(prettyNum, big.mark = "&#x200A;&#x200D;")
 pretty_gg <- purrr::partial(prettyNum, big.mark = "\u200a")
 nrow2 <- compose(nrow, pretty2, .dir = "forward")
 
@@ -282,7 +282,7 @@ seleccionar_trayectoria <- function(traj_model, clases, last_month){
 # Funciones para cargar nombres del excel de variables-------------------------
 # Cargar todos los nombres
 cargar_nombres_all <- function(cual, descrip = "") {
-  suppressMessages(rio::import(file = "Results/nombres_variables_minerva.xlsx", which = cual)) |>
+  suppressMessages(rio::import(file = "Results/vid_variables_names.xlsx", which = cual)) |>
     clean_names("snake") |>
     select(all) |>
     filter(!is.na(all)) |>
@@ -298,7 +298,7 @@ cargar_nombres_all <- function(cual, descrip = "") {
 }
 # Cargar nombres de variables obligatorias
 cargar_nombres <- function(cual, descrip = "") {
-  suppressMessages(rio::import(file = "Results/nombres_variables_minerva.xlsx", which = cual))  |>
+  suppressMessages(rio::import(file = "Results/vid_variables_names.xlsx", which = cual))  |>
     clean_names("snake") |>
     select(mandatory) |>
     filter(!is.na(mandatory)) |>

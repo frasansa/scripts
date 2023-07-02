@@ -1,8 +1,10 @@
-# ejemplo instalaciC3n en local-------------------------------------------------
-# devtools::install(file.path("d:", "Users",
-#                 "20833717H", "Downloads","Download_CERES","icdcoder-master"))
+# ejemplo instalación en local-----------------------------------------------
+# devtools::install(file.path("d:", "R_Projects", "Scripts",
+#                 "Github_packages","DataQualityDashboard-2.3.0"))
+devtools::install(file.path("d:", "R_Projects", "Scripts",
+                 "Github_packages","ParallelLogger-3.1.0"))
 
-# Clean libraries---------------------------------------------------------------
+# Clean libraries------------------------------------------------------------
 # paths = .libPaths()
 #
 # ## Try and detect bad files
@@ -14,7 +16,7 @@
 # l = list.files(paths, full.names = TRUE)
 # l[sapply(l, file.size) == 0]
 
-# Cargar librerC-as-------------------------------------------------------------
+# Cargar librerías-----------------------------------------------------------
 library(AdhereR)
 library(arsenal)
 library(broom)
