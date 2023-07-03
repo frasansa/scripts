@@ -1,8 +1,4 @@
 # ejemplo instalación en local-----------------------------------------------
-# devtools::install(file.path("d:", "R_Projects", "Scripts",
-#                 "Github_packages","DataQualityDashboard-2.3.0"))
-# devtools::install(file.path("d:", "R_Projects", "Scripts",
-#                  "Github_packages","ParallelLogger-3.2.0"))
 # Clean libraries------------------------------------------------------------
 # paths = .libPaths()
 #
@@ -65,6 +61,7 @@ library(microbenchmark)
 library(multidplyr)
 library(naniar)
 # library(plotly)
+library(odbc)
 library(pointblank)
 library(prettydoc)
 library(profvis)
