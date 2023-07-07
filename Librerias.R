@@ -1,4 +1,6 @@
 # ejemplo instalación en local-----------------------------------------------
+# devtools::install(file.path("d:", "R_Projects", "Scripts",
+#                             "Github_packages","Achilles-1.7.2"))
 # Clean libraries------------------------------------------------------------
 # paths = .libPaths()
 #
