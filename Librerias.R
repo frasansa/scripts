@@ -1,6 +1,6 @@
 # ejemplo instalación en local-----------------------------------------------
-# devtools::install(file.path("d:", "R_Projects", "Scripts",
-#                             "Github_packages","CdmInspection-1.1.0"))
+devtools::install(file.path("d:", "R_Projects", "Scripts",
+                            "Github_packages","CatalogueExport-1.02"))
 # Clean libraries------------------------------------------------------------
 # paths = .libPaths()
 #
