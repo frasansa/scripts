@@ -1,6 +1,8 @@
 # ejemplo instalación en local-----------------------------------------------
-# devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
-#                             "OhdsiSharing-main"))
+devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
+                             "DashboardExport-main"))
+# Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
+# options(internet.info = 0)
 
 # Clean libraries------------------------------------------------------------
 # paths = .libPaths()
@@ -13,7 +15,6 @@
 # ## List files of size 0
 # l = list.files(paths, full.names = TRUE)
 # l[sapply(l, file.size) == 0]
-
 # Cargar librerías-----------------------------------------------------------
 library(AdhereR)
 library(arsenal)
