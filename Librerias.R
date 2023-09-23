@@ -1,7 +1,6 @@
 # ejemplo instalación en local-----------------------------------------------
 # devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
 #                              "DashboardExport-main"))
-
 # Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
 # options(internet.info = 0)
 
