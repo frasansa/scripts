@@ -275,7 +275,8 @@ seleccionar_trayectoria <- function(traj_model, clases, last_month){
                                   ties.method = "dense")) |>
     mutate(color_clase = paleta[pdc_class_rank]) |>
     ungroup() |>
-    filter(modelo == clases)
+    filter(modelo == clases) |>
+    mutate(pdc = pmin(pdc, 1.0))
 
 }
 
