@@ -319,7 +319,7 @@ camcorder::gg_record(
 )
 
 # definir el estilo de los gráficos--------------------------------------------
-theme_set(theme_bw( base_size = 24))
+theme_set(theme_bw( base_size = 48))
 # tema_azul <- theme_update(
 #   plot.background = element_rect(fill = "aliceblue", colour = "black"),
 #   strip.background = element_rect(colour = "black", fill = "white"))
