@@ -172,13 +172,6 @@ pretty2 <- purrr::partial(prettyNum, big.mark = "&#x200A;&#x200D;")
 pretty_gg <- purrr::partial(prettyNum, big.mark = "\u200a")
 nrow2 <- compose(nrow, pretty2, .dir = "forward")
 
-# definir el estilo de los gráficos--------------------------------------------
-theme_set(theme_bw( base_size = 24))
-# tema_azul <- theme_update(
-#   plot.background = element_rect(fill = "aliceblue", colour = "black"),
-#   strip.background = element_rect(colour = "black", fill = "white"))
-
-
 # definir cero días------------------------------------------------------------
 zero_days = difftime(ymd("2000-01-01"), ymd("2000-01-01"), units = "days")
 
@@ -299,7 +292,8 @@ cargar_nombres_all <- function(cual, descrip = "") {
 }
 # Cargar nombres de variables obligatorias
 cargar_nombres <- function(cual, descrip = "") {
-  suppressMessages(rio::import(file = "Results/vid_variables_names.xlsx", which = cual))  |>
+  suppressMessages(rio::import(file = "Results/vid_variables_names.xlsx",
+                               which = cual))  |>
     clean_names("snake") |>
     select(mandatory) |>
     filter(!is.na(mandatory)) |>
@@ -324,3 +318,8 @@ camcorder::gg_record(
   # Makes sure background of plot is actually white, not transparent
 )
 
+# definir el estilo de los gráficos--------------------------------------------
+theme_set(theme_bw( base_size = 24))
+# tema_azul <- theme_update(
+#   plot.background = element_rect(fill = "aliceblue", colour = "black"),
+#   strip.background = element_rect(colour = "black", fill = "white"))
