@@ -315,12 +315,12 @@ cargar_nombres <- function(cual, descrip = "") {
 }
 
 # fix ggplots preview with camcorder
-camcorder::gg_record(
-  dir = "Images",
-  width = 12,
-  height = 12 * 9 / 16,
-  dpi = 300,
-  bg = 'white'
-  # Makes sure background of plot is actually white, not transparent
-)
+# camcorder::gg_record(
+#   dir = "Images",
+#   width = 12,
+#   height = 12 * 9 / 16,
+#   dpi = 300,
+#   bg = 'white'
+#   # Makes sure background of plot is actually white, not transparent
+# )
 
