@@ -308,6 +308,24 @@ cargar_nombres <- function(cual, descrip = "") {
       comment ="")
 }
 
+# Cargar nombres de variables eurocat
+cargar_nombres_eurocat <- function(cual, descrip = "") {
+  suppressMessages(rio::import(file = "Results/vid_variables_names.xlsx",
+                               which = cual))  |>
+    clean_names("snake") |>
+    select(eurocat) |>
+    filter(!is.na(eurocat)) |>
+    transmute(
+      datasource = "VID",
+      databank_acronym = cual,
+      databank_description = descrip,
+      table_name = cual,
+      original_name = eurocat,
+      meaning	= "",
+      data_dictionary = "",
+      comment ="")
+}
+
 # fix ggplots preview with camcorder
 # camcorder::gg_record(
 #   dir = "Images",
