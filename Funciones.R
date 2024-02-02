@@ -323,7 +323,7 @@ cargar_nombres_eurocat <- function(cual, descrip = "") {
       original_name = eurocat,
       meaning	= "",
       data_dictionary = "",
-      comment ="")
+      comment = "")
 }
 
 # fix ggplots preview with camcorder
