@@ -1,6 +1,6 @@
 # ejemplo instalación en local-----------------------------------------------
 # devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
-#                              "DashboardExport-main"))
+#                               "rchess-master"))
 # Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
 # options(internet.info = 0)
 
@@ -72,6 +72,7 @@ library(profvis)
 library(qwraps2)
 library(r2rtf)
 library(ragg)
+library(rchess)
 library(R2WinBUGS)
 library(RColorBrewer)
 library(readr)
