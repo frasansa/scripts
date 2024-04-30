@@ -17,6 +17,7 @@
 # l[sapply(l, file.size) == 0]
 # Cargar librerías-----------------------------------------------------------
 library(AdhereR)
+library(arrow)
 library(arsenal)
 library(broom)
 library(broom.mixed)
