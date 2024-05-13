@@ -1,6 +1,6 @@
 # ejemplo instalación en local-----------------------------------------------
 # devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
-#                               "Capr-2.0.7"))
+#                               "IncidencePrevalence-0.6.0"))
 # Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
 # options(internet.info = 0)
 
