@@ -1,13 +1,13 @@
 # ejemplo instalación en local-----------------------------------------------
-# devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
-#                               "IncidencePrevalence-0.6.0"))
+ # devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
+ #                               "httpuv-1.6.11"), force = TRUE)
 # Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
 # options(internet.info = 0)
 
 # Clean libraries------------------------------------------------------------
 # paths = .libPaths()
-#
-# ## Try and detect bad files
+# #
+# # ## Try and detect bad files
 # list.files(paths,
 #            pattern = "^00LOCK*|*\\.rds$|*\\.RDS$",
 #            full.names = TRUE)
