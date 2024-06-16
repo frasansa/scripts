@@ -1,6 +1,6 @@
 # ejemplo instalación en local-----------------------------------------------
 # devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
-#                               "textshaping-0.3.6"))
+#                               "omopgenerics-main"))
 # Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
 # options(internet.info = 0)
 
