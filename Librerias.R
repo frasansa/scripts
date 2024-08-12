@@ -110,10 +110,11 @@ library(wesanderson)
 library(writexl)
 library(zeallot)
 library(zip)
+# conflicts
+conflicted::conflict_prefer_all("tidylog")
+# conflicted::conflict_prefer("distinct", "tidylog")
+# conflicted::conflict_prefer("filter",   "tidylog")
+# conflicted::conflict_prefer("count",   "tidylog")
 conflicted::conflict_prefer("year",     "lubridate")
-conflicted::conflict_prefer("distinct", "tidylog")
-conflicted::conflict_prefer("filter",   "tidylog")
-conflicted::conflict_prefer("count",   "tidylog")
-
-
+conflicted::conflict_prefer("lag",     "dplyr")
 
