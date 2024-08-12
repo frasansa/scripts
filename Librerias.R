@@ -24,6 +24,7 @@ library(broom.mixed)
 library(CDMConnector)
 library(codebook)
 # library(collapse)
+library(conflicted)
 library(cowplot)
 library(data.table)
 library(DBI)
@@ -108,3 +109,7 @@ library(wesanderson)
 library(writexl)
 library(zeallot)
 library(zip)
+conflict_prefer("year", "lubridate")
+
+
+
