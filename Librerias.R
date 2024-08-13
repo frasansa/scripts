@@ -116,4 +116,5 @@ conflicted::conflict_prefer_all("dplyr")
 # conflicted::conflict_prefer("filter",   "tidylog")
 # conflicted::conflict_prefer("count",   "tidylog")
 conflicted::conflict_prefer("year",     "lubridate")
+conflicted::conflict_prefer_all("tidyr", "tidylog")
 
