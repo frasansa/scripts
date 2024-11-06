@@ -14,30 +14,28 @@ library(magick)
 
 ```{r}
 # Append "image1.png", "image2.png", and "image3.png"------------------------
-# FISABIO image
-image1 <- image_read(file.path("Images", "image1.png"))
-# HSRP image
-image2 <- image_read(file.path("Images", "image2.png"))
-# Darwin image
-image3 <- image_read(file.path("Images", "image3.png"))
+# DEIOAC image
+image1 <- image_read(file.path("Images", "logo_deioac.png"))
+# UPV image
+image2 <- image_read(file.path("Images", "logo_upv.png"))
 
 # Append the images horizontally
 image1_bis <- image_montage(c(image1), 
                           tile = "1X1",
-                          gravity = "south",
-                          geometry = "1000",
+                          gravity = "southeast",
+                          geometry = "250x250+15+50",
                           bg = "white"
                           )
 
 image2_bis <- image_montage(c(image2), 
                           tile = "1X1",
-                          gravity = "south",
+                          gravity = "center",
                           geometry = "1000",
                           bg = "white"
                           )
 
 # sign image (without DARWIN logo)
-sign_image <- image_append(c(image1_bis, image2_bis), stack = TRUE)
+sign_image <- image_append(c(image2_bis, image1_bis), stack = FALSE)
 
 # Save the result to a new image
 image_write(sign_image, format = "png",
