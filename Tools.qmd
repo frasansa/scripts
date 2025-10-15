@@ -12,6 +12,8 @@ library(magick)
 
 ```
 
+# Logos UPV
+
 ```{r}
 # Append "image1.png", "image2.png", and "image3.png"------------------------
 # DEIOAC image
@@ -40,6 +42,619 @@ sign_image <- image_append(c(image2_bis, image1_bis), stack = FALSE)
 # Save the result to a new image
 image_write(sign_image, format = "png",
             path = file.path("Images", "sign_image.png"))
+
+```
+
+
+# Logos Congreso R
+
+```{r}
+# Leer
+image_R  <- image_read(file.path("Images","congreso_R","R2.png"))
+image_ntt<- image_read(file.path("Images","congreso_R","ntt.png"))
+image_xpl<- image_read(file.path("Images","congreso_R","xpl.jpg"))
+image_edi<- image_read_svg(file.path("Images","congreso_R","edi.svg"), width = 400)
+image_mar<- image_read(file.path("Images","congreso_R","mar.png"))
+image_hp <- image_read_svg(file.path("Images","congreso_R","hp.svg"),  width = 350)
+
+# Fondo blanco y aplanar
+fix_bg <- \(im) image_background(im, "white") |> image_flatten()
+image_R  <- fix_bg(image_R)
+image_ntt<- fix_bg(image_ntt)
+image_xpl<- fix_bg(image_xpl)
+image_edi<- fix_bg(image_edi)
+image_mar<- fix_bg(image_mar)
+image_hp <- fix_bg(image_hp)
+
+# Escalados
+image_R   <- image_scale(image_R,  "500")   # R más grande
+image_ntt <- image_scale(image_ntt,"800")
+image_xpl <- image_scale(image_xpl,"400")
+image_edi <- image_scale(image_edi,"400")
+image_mar <- image_scale(image_mar,"350")
+image_hp  <- image_scale(image_hp, "350")
+
+# Alinear Xplore y Edicom (misma altura y centrados verticalmente)
+h3 <- max(image_info(image_xpl)$height, image_info(image_edi)$height)
+pad_to_h <- function(im, H){
+  w <- image_info(im)$width
+  image_extent(im, paste0(w, "x", H), gravity = "center", color = "white")
+}
+image_xpl <- pad_to_h(image_xpl, h3)
+image_edi <- pad_to_h(image_edi, h3)
+
+# Espaciadores
+spacer_h <- h3
+spacer   <- image_blank(width = 200, height = spacer_h, color = "white")
+
+# Filas
+fila1 <- image_R
+fila2 <- image_ntt
+fila3 <- image_append(c(image_xpl, spacer, image_edi))
+fila4 <- image_append(c(image_mar, spacer, image_hp))
+
+# Ancho máximo
+ancho_max <- max(image_info(fila1)$width,
+                 image_info(fila2)$width,
+                 image_info(fila3)$width,
+                 image_info(fila4)$width)
+
+# Centrado de cada fila con fondo blanco (evita transparencias/negruras)
+center_w <- function(im, W){
+  image_extent(im, paste0(W, "x", image_info(im)$height),
+               gravity = "center", color = "white")
+}
+fila1_c <- center_w(fila1, ancho_max)
+fila2_c <- center_w(fila2, ancho_max)
+fila3_c <- center_w(fila3, ancho_max)
+fila4_c <- center_w(fila4, ancho_max)
+
+# Espaciado vertical blanco
+espaciado <- image_blank(ancho_max, 60, color = "white")
+
+# Apilar
+collage_final <- image_append(c(fila1_c, espaciado,
+                                fila2_c, espaciado,
+                                fila3_c, espaciado,
+                                fila4_c),
+                              stack = TRUE)
+
+# Margen y guardar
+collage_final <- image_border(collage_final, "white", "50x50")
+image_write(collage_final, file.path("Images","congreso_R","logos_collage.png"))
+
+print(collage_final)
+
+```
+
+```{r}
+library(magick)
+
+# Leer las imágenes
+image_R <- image_read(file.path("Images", "congreso_R", "R2.png"))
+image_ntt <- image_read(file.path("Images", "congreso_R", "ntt.png"))
+image_xpl <- image_read(file.path("Images", "congreso_R", "xpl.jpg"))
+image_edi <- image_read_svg(file.path("Images", "congreso_R", "edi.svg"), width = 400)
+image_mar <- image_read(file.path("Images", "congreso_R", "mar.png"))
+image_hp <- image_read_svg(file.path("Images", "congreso_R", "hp.svg"), width = 350)
+
+# Establecer fondo blanco para todas las imágenes (eliminar transparencias)
+image_R <- image_background(image_R, "white") |> image_flatten()
+image_ntt <- image_background(image_ntt, "white") |> image_flatten()
+image_xpl <- image_background(image_xpl, "white") |> image_flatten()
+image_edi <- image_background(image_edi, "white") |> image_flatten()
+image_mar <- image_background(image_mar, "white") |> image_flatten()
+image_hp <- image_background(image_hp, "white") |> image_flatten()
+
+# Redimensionar imágenes manteniendo proporciones
+# Fila 1: Logo R (más grande ahora)
+image_R <- image_scale(image_R, "500")
+
+# Fila 2: NTT Data (grande)
+image_ntt <- image_scale(image_ntt, "800")
+
+# Fila 3: Xplore y Edicom (mismo tamaño para mejor alineación)
+image_xpl <- image_scale(image_xpl, "400")
+image_edi <- image_scale(image_edi, "400")
+
+# Fila 4: Smartia y HP
+image_mar <- image_scale(image_mar, "350")
+image_hp <- image_scale(image_hp, "350")
+
+# Crear espaciadores blancos (no transparentes)
+spacer <- image_blank(200, 100, "white")
+
+# Fila 1: Logo R centrado
+fila1 <- image_R
+
+# Fila 2: NTT Data centrado
+fila2 <- image_ntt
+
+# Fila 3: Xplore y Edicom - alineados verticalmente
+# Obtener la altura máxima de ambas imágenes
+altura_xpl <- image_info(image_xpl)$height
+altura_edi <- image_info(image_edi)$height
+altura_max_fila3 <- max(altura_xpl, altura_edi)
+
+# Extender ambas imágenes a la misma altura, centradas verticalmente
+image_xpl_aligned <- image_extent(
+  image_xpl, 
+  paste0(image_info(image_xpl)$width, "x", altura_max_fila3),
+  gravity = "center"
+)
+
+image_edi_aligned <- image_extent(
+  image_edi,
+  paste0(image_info(image_edi)$width, "x", altura_max_fila3),
+  gravity = "center"
+)
+
+fila3 <- image_append(c(image_xpl_aligned, spacer, image_edi_aligned))
+
+# Fila 4: Smartia y HP - alineados verticalmente
+altura_mar <- image_info(image_mar)$height
+altura_hp <- image_info(image_hp)$height
+altura_max_fila4 <- max(altura_mar, altura_hp)
+
+image_mar_aligned <- image_extent(
+  image_mar,
+  paste0(image_info(image_mar)$width, "x", altura_max_fila4),
+  gravity = "center"
+)
+
+image_hp_aligned <- image_extent(
+  image_hp,
+  paste0(image_info(image_hp)$width, "x", altura_max_fila4),
+  gravity = "center"
+)
+
+fila4 <- image_append(c(image_mar_aligned, spacer, image_hp_aligned))
+
+# Calcular ancho máximo
+ancho_max <- max(
+  image_info(fila1)$width,
+  image_info(fila2)$width,
+  image_info(fila3)$width,
+  image_info(fila4)$width
+)
+
+# Centrar cada fila horizontalmente
+fila1_centrada <- image_extent(
+  fila1, 
+  paste0(ancho_max, "x", image_info(fila1)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+fila2_centrada <- image_extent(
+  fila2, 
+  paste0(ancho_max, "x", image_info(fila2)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+fila3_centrada <- image_extent(
+  fila3, 
+  paste0(ancho_max, "x", image_info(fila3)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+fila4_centrada <- image_extent(
+  fila4, 
+  paste0(ancho_max, "x", image_info(fila4)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+# Crear espaciadores verticales blancos
+espaciado <- image_blank(ancho_max, 60, "white")
+
+# Apilar todas las filas
+collage_final <- c(
+  fila1_centrada,
+  espaciado,
+  fila2_centrada,
+  espaciado,
+  fila3_centrada,
+  espaciado,
+  fila4_centrada
+) |> image_append(stack = TRUE)
+
+# Añadir margen blanco alrededor
+collage_final <- image_border(collage_final, "white", "50x50")
+
+# Guardar el resultado
+image_write(collage_final, file.path("Images", "congreso_R", "logos_collage2.png"))
+
+# Visualizar
+print(collage_final)
+```
+```{r}
+library(magick)
+
+# Crear carpeta para archivos vectorizados
+dir.create(file.path("Images", "congreso_R", "vectorizar"), 
+           showWarnings = FALSE, recursive = TRUE)
+
+# ============================================================================
+# FUNCIÓN PARA PROCESAR LOGOS RASTER (PNG, JPG) A FORMATO LISTO PARA IMPRENTA
+# ============================================================================
+procesar_logo_monocromo <- function(ruta_img, nombre_salida) {
+  cat("Procesando:", basename(ruta_img), "\n")
+  
+  # Leer y preparar imagen
+  img <- image_read(ruta_img) |>
+    image_background("white") |>        # Fondo blanco
+    image_flatten() |>                  # Eliminar transparencias
+    image_scale("4000") |>              # Muy alta resolución
+    image_convert(colorspace = "gray") |> # Escala de grises
+    image_contrast(sharpen = 2) |>      # Aumentar contraste
+    image_threshold("white", "50%")     # Solo blanco y negro puro
+  
+  # Guardar en múltiples formatos
+  
+  # 1. PNG de máxima calidad (para vectorizar después)
+  image_write(img, 
+              file.path("Images", "congreso_R", "vectorizar",
+                       paste0(nombre_salida, "_bw_hq.png")),
+              format = "png", quality = 100, density = 300)
+  
+  # 2. PDF de alta resolución
+  image_write(img,
+              file.path("Images", "congreso_R", "vectorizar", 
+                       paste0(nombre_salida, "_bw.pdf")),
+              format = "pdf", density = 300)
+  
+  # 3. TIFF (formato común en imprenta)
+  image_write(img,
+              file.path("Images", "congreso_R", "vectorizar",
+                       paste0(nombre_salida, "_bw.tiff")),
+              format = "tiff", quality = 100, density = 300)
+  
+  cat("  ✓ Guardados 3 formatos para:", nombre_salida, "\n\n")
+}
+
+# ============================================================================
+# FUNCIÓN MEJORADA PARA PROCESAR LOGOS SVG (YA VECTORIALES)
+# ============================================================================
+procesar_svg <- function(ruta_svg, nombre_salida, threshold_percent = "50%") {
+  cat("Procesando SVG:", basename(ruta_svg), "\n")
+  
+  # Leer SVG en alta resolución
+  img <- image_read_svg(ruta_svg, width = 4000)
+  
+  # Convertir a blanco y negro para un solo color de impresión
+  img <- img |>
+    image_background("white") |>
+    image_flatten() |>
+    image_convert(colorspace = "gray") |>
+    image_normalize() |>  # Normalizar antes para mejorar el contraste
+    image_contrast(sharpen = 2)
+  
+  # Aplicar threshold ajustado (para HP necesitamos capturar grises)
+  img <- image_threshold(img, "white", threshold_percent)
+  
+  # Guardar versiones procesadas
+  image_write(img, 
+              file.path("Images", "congreso_R", "vectorizar",
+                       paste0(nombre_salida, "_bw_hq.png")),
+              format = "png", quality = 100, density = 300)
+  
+  image_write(img,
+              file.path("Images", "congreso_R", "vectorizar", 
+                       paste0(nombre_salida, "_bw.pdf")),
+              format = "pdf", density = 300)
+  
+  # Copiar SVG original también (ya es vectorial)
+  file.copy(ruta_svg,
+            file.path("Images", "congreso_R", "vectorizar",
+                     paste0(nombre_salida, "_original.svg")),
+            overwrite = TRUE)
+  
+  cat("  ✓ SVG procesado y original copiado:", nombre_salida, "\n\n")
+}
+
+# ============================================================================
+# PROCESAR TODOS LOS LOGOS
+# ============================================================================
+
+cat("=================================================\n")
+cat("PREPARANDO LOGOS PARA VECTORIZACIÓN E IMPRENTA\n")
+cat("=================================================\n\n")
+
+# Logos raster (PNG, JPG)
+procesar_logo_monocromo(
+  file.path("Images", "congreso_R", "R2.png"),
+  "logo_R_congreso"
+)
+
+procesar_logo_monocromo(
+  file.path("Images", "congreso_R", "ntt.png"),
+  "logo_NTT_Data"
+)
+
+procesar_logo_monocromo(
+  file.path("Images", "congreso_R", "xpl.jpg"),
+  "logo_Xplore_Group"
+)
+
+procesar_logo_monocromo(
+  file.path("Images", "congreso_R", "mar.png"),
+  "logo_Smartia"
+)
+
+# Logos SVG (ya vectoriales)
+procesar_svg(
+  file.path("Images", "congreso_R", "edi.svg"),
+  "logo_Edicom",
+  threshold_percent = "50%"
+)
+
+# HP necesita un threshold más bajo para capturar la W gris
+# Alternativa específica para HP si el threshold no funciona
+procesar_svg_hp <- function(ruta_svg, nombre_salida) {
+  cat("Procesando SVG HP (versión especial):", basename(ruta_svg), "\n")
+  
+  img <- image_read_svg(ruta_svg, width = 4000)
+  
+  # Invertir colores primero si HP tiene fondo oscuro
+  img <- img |>
+    image_background("white") |>
+    image_flatten() |>
+    image_convert(colorspace = "gray") |>
+    image_level(black_point = 0, white_point = 70, mid_point = 1.2) |>  # Ajuste de niveles
+    image_contrast(sharpen = 3) |>
+    image_threshold("white", "40%")
+  
+  image_write(img, 
+              file.path("Images", "congreso_R", "vectorizar",
+                       paste0(nombre_salida, "_bw_hq.png")),
+              format = "png", quality = 100, density = 300)
+  
+  image_write(img,
+              file.path("Images", "congreso_R", "vectorizar", 
+                       paste0(nombre_salida, "_bw.pdf")),
+              format = "pdf", density = 300)
+  
+  file.copy(ruta_svg,
+            file.path("Images", "congreso_R", "vectorizar",
+                     paste0(nombre_salida, "_original.svg")),
+            overwrite = TRUE)
+  
+  cat("  ✓ SVG HP procesado con ajustes especiales\n\n")
+}
+
+# Usar esta función para HP
+# ============================================================================
+# FUNCIÓN ESPECÍFICA PARA HP - PRESERVAR DETALLES
+# ============================================================================
+procesar_svg_hp_detallado <- function(ruta_svg, nombre_salida) {
+  cat("Procesando SVG HP (preservando detalles):", basename(ruta_svg), "\n")
+  
+  img <- image_read_svg(ruta_svg, width = 4000)
+  
+  # NO convertir a blanco/negro, mantener escala de grises
+  img_gray <- img |>
+    image_background("white") |>
+    image_flatten() |>
+    image_convert(colorspace = "gray") |>
+    image_normalize() |>
+    image_modulate(brightness = 100, saturation = 0, hue = 100) |>
+    image_contrast(sharpen = 3)
+  
+  # Guardar versión en escala de grises (la imprenta puede usar esto)
+  image_write(img_gray, 
+              file.path("Images", "congreso_R", "vectorizar",
+                       paste0(nombre_salida, "_grayscale_hq.png")),
+              format = "png", quality = 100, density = 300)
+  
+  image_write(img_gray,
+              file.path("Images", "congreso_R", "vectorizar", 
+                       paste0(nombre_salida, "_grayscale.pdf")),
+              format = "pdf", density = 300)
+  
+  # Versión con inversión para ver qué pasa
+  img_inverted <- img |>
+    image_background("white") |>
+    image_flatten() |>
+    image_negate() |>
+    image_convert(colorspace = "gray") |>
+    image_contrast(sharpen = 2) |>
+    image_threshold("black", "50%")
+  
+  image_write(img_inverted,
+              file.path("Images", "congreso_R", "vectorizar",
+                       paste0(nombre_salida, "_inverted_hq.png")),
+              format = "png", quality = 100, density = 300)
+  
+  # Copiar SVG original (MEJOR OPCIÓN)
+  file.copy(ruta_svg,
+            file.path("Images", "congreso_R", "vectorizar",
+                     paste0(nombre_salida, "_original.svg")),
+            overwrite = TRUE)
+  
+  cat("  ✓ HP procesado - usa el SVG original o grayscale\n\n")
+}
+
+# Reemplaza la llamada de HP por:
+procesar_svg_hp_detallado(
+  file.path("Images", "congreso_R", "hp.svg"),
+  "logo_HP"
+)
+
+# ============================================================================
+# CREAR COLLAGE MONOCROMO FINAL
+# ============================================================================
+
+cat("=================================================\n")
+cat("CREANDO COLLAGE MONOCROMO FINAL\n")
+cat("=================================================\n\n")
+
+# Leer todos los logos procesados en blanco y negro
+image_R <- image_read(file.path("Images", "congreso_R", "vectorizar", 
+                                "logo_R_congreso_bw_hq.png"))
+image_ntt <- image_read(file.path("Images", "congreso_R", "vectorizar", 
+                                  "logo_NTT_Data_bw_hq.png"))
+image_xpl <- image_read(file.path("Images", "congreso_R", "vectorizar", 
+                                  "logo_Xplore_Group_bw_hq.png"))
+image_edi <- image_read(file.path("Images", "congreso_R", "vectorizar", 
+                                  "logo_Edicom_bw_hq.png"))
+image_mar <- image_read(file.path("Images", "congreso_R", "vectorizar", 
+                                  "logo_Smartia_bw_hq.png"))
+image_hp <- image_read(file.path("Images", "congreso_R", "vectorizar", 
+                                 "logo_HP_bw_hq.png"))
+
+# Redimensionar (proporciones ajustadas)
+image_R <- image_scale(image_R, "600")
+image_ntt <- image_scale(image_ntt, "1000")
+image_xpl <- image_scale(image_xpl, "500")
+image_edi <- image_scale(image_edi, "500")
+image_mar <- image_scale(image_mar, "450")
+image_hp <- image_scale(image_hp, "450")
+
+# Espaciador blanco
+spacer <- image_blank(250, 100, "white")
+
+# Construir filas
+fila1 <- image_R
+
+fila2 <- image_ntt
+
+# Fila 3: alineación vertical
+altura_xpl <- image_info(image_xpl)$height
+altura_edi <- image_info(image_edi)$height
+altura_max_fila3 <- max(altura_xpl, altura_edi)
+
+image_xpl_aligned <- image_extent(
+  image_xpl, 
+  paste0(image_info(image_xpl)$width, "x", altura_max_fila3),
+  gravity = "center",
+  color = "white"
+)
+
+image_edi_aligned <- image_extent(
+  image_edi,
+  paste0(image_info(image_edi)$width, "x", altura_max_fila3),
+  gravity = "center",
+  color = "white"
+)
+
+fila3 <- image_append(c(image_xpl_aligned, spacer, image_edi_aligned))
+
+# Fila 4: alineación vertical
+altura_mar <- image_info(image_mar)$height
+altura_hp <- image_info(image_hp)$height
+altura_max_fila4 <- max(altura_mar, altura_hp)
+
+image_mar_aligned <- image_extent(
+  image_mar,
+  paste0(image_info(image_mar)$width, "x", altura_max_fila4),
+  gravity = "center",
+  color = "white"
+)
+
+image_hp_aligned <- image_extent(
+  image_hp,
+  paste0(image_info(image_hp)$width, "x", altura_max_fila4),
+  gravity = "center",
+  color = "white"
+)
+
+fila4 <- image_append(c(image_mar_aligned, spacer, image_hp_aligned))
+
+# Calcular ancho máximo
+ancho_max <- max(
+  image_info(fila1)$width,
+  image_info(fila2)$width,
+  image_info(fila3)$width,
+  image_info(fila4)$width
+)
+
+# Centrar filas horizontalmente
+fila1_centrada <- image_extent(
+  fila1, 
+  paste0(ancho_max, "x", image_info(fila1)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+fila2_centrada <- image_extent(
+  fila2, 
+  paste0(ancho_max, "x", image_info(fila2)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+fila3_centrada <- image_extent(
+  fila3, 
+  paste0(ancho_max, "x", image_info(fila3)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+fila4_centrada <- image_extent(
+  fila4, 
+  paste0(ancho_max, "x", image_info(fila4)$height), 
+  gravity = "center",
+  color = "white"
+)
+
+# Espaciado vertical
+espaciado <- image_blank(ancho_max, 80, "white")
+
+# Apilar verticalmente
+collage_final <- c(
+  fila1_centrada,
+  espaciado,
+  fila2_centrada,
+  espaciado,
+  fila3_centrada,
+  espaciado,
+  fila4_centrada
+) |> image_append(stack = TRUE)
+
+# Margen blanco
+collage_final <- image_border(collage_final, "white", "60x60")
+
+# Guardar collage monocromo
+image_write(collage_final, 
+            file.path("Images", "congreso_R", "vectorizar", 
+                     "logos_collage_monocromo.png"),
+            format = "png", quality = 100, density = 300)
+
+image_write(collage_final,
+            file.path("Images", "congreso_R", "vectorizar", 
+                     "logos_collage_monocromo.pdf"),
+            format = "pdf", quality = 100, density = 300)
+
+# TIFF del collage (formato preferido por imprentas)
+image_write(collage_final,
+            file.path("Images", "congreso_R", "vectorizar", 
+                     "logos_collage_monocromo.tiff"),
+            format = "tiff", quality = 100, density = 300)
+
+cat("=================================================\n")
+cat("✓ PROCESO COMPLETADO\n")
+cat("=================================================\n\n")
+cat("Archivos generados en: Images/congreso_R/vectorizar/\n\n")
+cat("Para cada logo tienes:\n")
+cat("  - *_bw_hq.png (máxima calidad, listo para vectorizar)\n")
+cat("  - *_bw.pdf (PDF de alta resolución)\n")
+cat("  - *_bw.tiff (formato imprenta)\n")
+cat("  - *_original.svg (solo para logos que ya eran SVG)\n\n")
+cat("Collage final en blanco y negro:\n")
+cat("  - logos_collage_monocromo.png\n")
+cat("  - logos_collage_monocromo.pdf\n\n")
+cat("SIGUIENTE PASO:\n")
+cat("Vectoriza los PNG de alta calidad con:\n")
+cat("  - Inkscape (gratis): vectorizer.ai\n")
+cat("  - Adobe Illustrator\n")
+cat("  - https://vectorizer.ai/\n")
+cat("  - https://www.autotracer.org/\n")
+
+# Visualizar
+print(collage_final)
 
 ```
 

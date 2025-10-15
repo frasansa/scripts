@@ -1,6 +1,7 @@
 # ejemplo instalación en local-----------------------------------------------
-# devtools::install(file.path("d:", "R_Projects", "Scripts", "Github_packages",
-#                               "omopgenerics-main"))
+# devtools::install(file.path("c:", "Users", "fcosa", "Downloads",
+#                             "R_Projects", "scripts", "Github_packages",
+#                               "ggflags-master"))
 # Sys.setenv(http_proxy="http://proxy.san.gva.es:8080/")
 # options(internet.info = 0)
 
